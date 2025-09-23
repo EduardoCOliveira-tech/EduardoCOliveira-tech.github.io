@@ -1,29 +1,27 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="style.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Presentes - Eduardo</title>
-</head>
-<body>
-    <div class="container">
+<div class="container">
         <header>
             <h1>Lista de Presentes para Eduardo</h1>
             <p>Gerencie os presentes que você deseja comprar</p>
         </header>
         
         <div class="controls">
-            <div class="filters">
-                <select id="categoryFilter">
-                    <option value="">Todas as categorias</option>
-                </select>
-                <select id="statusFilter">
-                    <option value="todos">Todos os itens</option>
-                    <option value="disponiveis">Disponíveis</option>
-                    <option value="comprados">Comprados</option>
-                </select>
-                <input type="text" id="searchInput" placeholder="Pesquisar...">
+            <div>
+                <div class="filters">
+                    <select id="categoryFilter">
+                        <option value="">Todas as categorias</option>
+                    </select>
+                    <select id="statusFilter">
+                        <option value="todos">Todos os itens</option>
+                        <option value="disponiveis">Disponíveis</option>
+                        <option value="comprados">Comprados</option>
+                    </select>
+                    <input type="text" id="searchInput" placeholder="Pesquisar por nome...">
+                </div>
+                <div class="manga-filter hidden" id="mangaFilterContainer">
+                    <select id="mangaFilter">
+                        <option value="">Todos os mangás</option>
+                    </select>
+                </div>
             </div>
             <button id="addItemBtn">Adicionar Item</button>
         </div>
@@ -52,9 +50,21 @@
                 </div>
                 <div class="form-group">
                     <label for="itemCategory">Categoria</label>
-                    <select id="itemCategory" required>
-                        <option value="">Selecione uma categoria</option>
-                    </select>
+                    <div style="display: flex; gap: 10px;">
+                        <select id="itemCategory" required style="flex: 1;">
+                            <option value="">Selecione uma categoria</option>
+                        </select>
+                        <button type="button" id="addCategoryBtn" style="white-space: nowrap;">+ Nova</button>
+                    </div>
+                </div>
+                <div class="form-group hidden" id="workGroup">
+                    <label for="itemWork">Obra (para mangás)</label>
+                    <div style="display: flex; gap: 10px;">
+                        <select id="itemWork" style="flex: 1;">
+                            <option value="">Selecione um mangá</option>
+                        </select>
+                        <button type="button" id="addMangaBtn" style="white-space: nowrap;">+ Novo</button>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="itemPlatform">Plataforma</label>
@@ -79,6 +89,33 @@
             </form>
         </div>
     </div>
-    <script src="script.js"></script>
-</body>
-</html>
+    
+    <!-- Popup para adicionar nova categoria -->
+    <div class="popup" id="categoryPopup">
+        <div class="popup-content">
+            <h3>Adicionar Nova Categoria</h3>
+            <div class="form-group">
+                <label for="newCategoryName">Nome da Categoria</label>
+                <input type="text" id="newCategoryName" placeholder="Ex: Action Figures, Funko Pop, etc.">
+            </div>
+            <div class="popup-actions">
+                <button type="button" id="cancelCategoryBtn">Cancelar</button>
+                <button type="button" id="saveCategoryBtn">Salvar</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Popup para adicionar novo mangá -->
+    <div class="popup" id="mangaPopup">
+        <div class="popup-content">
+            <h3>Adicionar Novo Mangá</h3>
+            <div class="form-group">
+                <label for="newMangaName">Nome do Mangá</label>
+                <input type="text" id="newMangaName" placeholder="Ex: Attack on Titan, One Piece, etc.">
+            </div>
+            <div class="popup-actions">
+                <button type="button" id="cancelMangaBtn">Cancelar</button>
+                <button type="button" id="saveMangaBtn">Salvar</button>
+            </div>
+        </div>
+    </div>
