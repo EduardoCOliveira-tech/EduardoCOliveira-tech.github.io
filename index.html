@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Presentes - Eduardo</title>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Lista de Presentes para Eduardo</h1>
+            <p>Gerencie os presentes que você deseja comprar</p>
+        </header>
+        
+        <div class="controls">
+            <div class="filters">
+                <select id="categoryFilter">
+                    <option value="">Todas as categorias</option>
+                </select>
+                <select id="statusFilter">
+                    <option value="todos">Todos os itens</option>
+                    <option value="disponiveis">Disponíveis</option>
+                    <option value="comprados">Comprados</option>
+                </select>
+                <input type="text" id="searchInput" placeholder="Pesquisar...">
+            </div>
+            <button id="addItemBtn">Adicionar Item</button>
+        </div>
+        
+        <div class="items-grid" id="itemsContainer">
+            <!-- Itens serão inseridos aqui via JavaScript -->
+        </div>
+        
+        <div class="total">
+            Total estimado: R$ <span id="totalValue">0</span>
+        </div>
+    </div>
+    
+    <!-- Modal para adicionar/editar itens -->
+    <div class="modal" id="itemModal">
+        <div class="modal-content">
+            <h2 id="modalTitle">Adicionar Novo Item</h2>
+            <form id="itemForm">
+                <div class="form-group">
+                    <label for="itemName">Nome do Produto</label>
+                    <input type="text" id="itemName" required>
+                </div>
+                <div class="form-group">
+                    <label for="itemPrice">Preço (R$)</label>
+                    <input type="number" id="itemPrice" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="itemCategory">Categoria</label>
+                    <select id="itemCategory" required>
+                        <option value="">Selecione uma categoria</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="itemPlatform">Plataforma</label>
+                    <input type="text" id="itemPlatform">
+                </div>
+                <div class="form-group">
+                    <label for="itemLink">Link</label>
+                    <input type="url" id="itemLink">
+                </div>
+                <div class="form-group">
+                    <label for="itemImage">URL da Imagem</label>
+                    <input type="url" id="itemImage">
+                </div>
+                <div class="form-group">
+                    <label for="itemNotes">Observações</label>
+                    <textarea id="itemNotes" rows="3"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" id="cancelBtn">Cancelar</button>
+                    <button type="submit" id="saveBtn">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
