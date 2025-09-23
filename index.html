@@ -4,146 +4,162 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Presentes - Eduardo</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Seus estilos anteriores aqui */
+        .share-section {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e8f4f8;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .share-url {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #3498db;
+            border-radius: 4px;
+            background-color: white;
+        }
+        
+        .copy-btn {
+            background-color: #2ecc71;
+        }
+        
+        .copy-btn:hover {
+            background-color: #27ae60;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>Lista de Presentes para Eduardo</h1>
-            <p>Gerencie os presentes que você deseja comprar</p>
-        </header>
+        <!-- Seu conteúdo atual aqui -->
         
-        <div class="controls">
-            <div>
-                <div class="filters">
-                    <select id="categoryFilter">
-                        <option value="">Todas as categorias</option>
-                    </select>
-                    <select id="statusFilter">
-                        <option value="todos">Todos os itens</option>
-                        <option value="disponiveis">Disponíveis</option>
-                        <option value="comprados">Comprados</option>
-                    </select>
-                    <input type="text" id="searchInput" placeholder="Pesquisar por nome...">
-                </div>
-                <div class="manga-filter hidden" id="mangaFilterContainer">
-                    <select id="mangaFilter">
-                        <option value="">Todos os mangás</option>
-                    </select>
-                </div>
-            </div>
-            <button id="addItemBtn">Adicionar Item</button>
-        </div>
-        
-        <div class="items-grid" id="itemsContainer">
-            <!-- Itens serão inseridos aqui via JavaScript -->
-        </div>
-        
-        <div class="total">
-            Total estimado: R$ <span id="totalValue">0</span>
-        </div>
-        
-        <!-- NOVA SEÇÃO: Compartilhamento -->
         <div class="share-section">
-            <h3>📤 Compartilhar Lista</h3>
-            <p>Copie o link abaixo para compartilhar sua lista atualizada:</p>
-            <div class="share-url-container">
-                <input type="text" class="share-url" id="shareUrl" readonly>
-                <button class="copy-btn" id="copyBtn">📋 Copiar</button>
-            </div>
-            <div class="share-info">
-                <p>✅ <strong>Este link contém todos os itens da sua lista</strong></p>
-                <p>🔗 <strong>Como usar:</strong> Envie este link para amigos/família</p>
-                <p>⚠️ <strong>Limitação:</strong> O link pode ficar muito longo com muitos itens</p>
-            </div>
+            <h3>Compartilhar Lista</h3>
+            <p>Copie o link abaixo para compartilhar sua lista atual:</p>
+            <input type="text" class="share-url" id="shareUrl" readonly>
+            <button class="copy-btn" id="copyBtn">Copiar Link</button>
+            <p><small>Este link contém todos os itens da sua lista atual.</small></p>
         </div>
     </div>
-    
-    <!-- Modal para adicionar/editar itens -->
-    <div class="modal" id="itemModal">
-        <div class="modal-content">
-            <h2 id="modalTitle">Adicionar Novo Item</h2>
-            <form id="itemForm">
-                <div class="form-group">
-                    <label for="itemName">Nome do Produto</label>
-                    <input type="text" id="itemName" required>
-                </div>
-                <div class="form-group">
-                    <label for="itemPrice">Preço (R$)</label>
-                    <input type="number" id="itemPrice" step="0.01" required>
-                </div>
-                <div class="form-group">
-                    <label for="itemCategory">Categoria</label>
-                    <div style="display: flex; gap: 10px;">
-                        <select id="itemCategory" required style="flex: 1;">
-                            <option value="">Selecione uma categoria</option>
-                        </select>
-                        <button type="button" id="addCategoryBtn" style="white-space: nowrap;">+ Nova</button>
-                    </div>
-                </div>
-                <div class="form-group hidden" id="workGroup">
-                    <label for="itemWork">Obra (para mangás)</label>
-                    <div style="display: flex; gap: 10px;">
-                        <select id="itemWork" style="flex: 1;">
-                            <option value="">Selecione um mangá</option>
-                        </select>
-                        <button type="button" id="addMangaBtn" style="white-space: nowrap;">+ Novo</button>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="itemPlatform">Plataforma</label>
-                    <input type="text" id="itemPlatform">
-                </div>
-                <div class="form-group">
-                    <label for="itemLink">Link</label>
-                    <input type="url" id="itemLink">
-                </div>
-                <div class="form-group">
-                    <label for="itemImage">URL da Imagem</label>
-                    <input type="url" id="itemImage">
-                </div>
-                <div class="form-group">
-                    <label for="itemNotes">Observações</label>
-                    <textarea id="itemNotes" rows="3"></textarea>
-                </div>
-                <div class="form-actions">
-                    <button type="button" id="cancelBtn">Cancelar</button>
-                    <button type="submit" id="saveBtn">Salvar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    
-    <!-- Popups para adicionar categoria e mangá -->
-    <div class="popup" id="categoryPopup">
-        <div class="popup-content">
-            <h3>Adicionar Nova Categoria</h3>
-            <div class="form-group">
-                <input type="text" id="newCategoryName" placeholder="Ex: Action Figures, Funko Pop, etc.">
-            </div>
-            <div class="popup-actions">
-                <button type="button" id="cancelCategoryBtn">Cancelar</button>
-                <button type="button" id="saveCategoryBtn">Salvar</button>
-            </div>
-        </div>
-    </div>
-    
-    <div class="popup" id="mangaPopup">
-        <div class="popup-content">
-            <h3>Adicionar Novo Mangá</h3>
-            <div class="form-group">
-                <input type="text" id="newMangaName" placeholder="Ex: Attack on Titan, One Piece, etc.">
-            </div>
-            <div class="popup-actions">
-                <button type="button" id="cancelMangaBtn">Cancelar</button>
-                <button type="button" id="saveMangaBtn">Salvar</button>
-            </div>
-        </div>
-    </div>
-    
-    <script src="data-manager.js"></script>
-    <script src="ui-manager.js"></script>
-    <script src="share-manager.js"></script>
-    <script src="main.js"></script>
+
+    <script>
+        // Função para codificar os dados em Base64
+        function encodeData(data) {
+            return btoa(JSON.stringify(data));
+        }
+
+        // Função para decodificar os dados de Base64
+        function decodeData(encodedData) {
+            try {
+                return JSON.parse(atob(encodedData));
+            } catch (e) {
+                return null;
+            }
+        }
+
+        // Função para atualizar a URL com os dados atuais
+        function updateShareUrl() {
+            const data = {
+                items: items,
+                categories: categories,
+                mangas: mangas,
+                timestamp: new Date().getTime()
+            };
+            
+            const encodedData = encodeData(data);
+            const shareUrl = window.location.origin + window.location.pathname + '?data=' + encodedData;
+            document.getElementById('shareUrl').value = shareUrl;
+            
+            // Atualizar a URL atual sem recarregar a página
+            window.history.replaceState({}, '', '?data=' + encodedData);
+        }
+
+        // Função para carregar dados da URL
+        function loadDataFromUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const encodedData = urlParams.get('data');
+            
+            if (encodedData) {
+                const data = decodeData(encodedData);
+                if (data && data.items) {
+                    items = data.items;
+                    categories = data.categories || categories;
+                    mangas = data.mangas || mangas;
+                    
+                    // Salvar também no localStorage para uso local
+                    localStorage.setItem('giftItems', JSON.stringify(items));
+                    localStorage.setItem('categoryList', JSON.stringify(categories));
+                    localStorage.setItem('mangaList', JSON.stringify(mangas));
+                    
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // Modificar a função saveItem para atualizar a URL
+        function saveItem(e) {
+            e.preventDefault();
+            
+            // ... seu código atual de saveItem ...
+            
+            // Após salvar, atualizar a URL compartilhável
+            updateShareUrl();
+        }
+
+        // Adicionar evento de clique ao botão copiar
+        document.getElementById('copyBtn').addEventListener('click', function() {
+            const shareUrl = document.getElementById('shareUrl');
+            shareUrl.select();
+            document.execCommand('copy');
+            alert('Link copiado para a área de transferência!');
+        });
+
+        // Na inicialização, verificar se há dados na URL
+        document.addEventListener('DOMContentLoaded', function() {
+            // Primeiro tenta carregar da URL, depois do localStorage
+            if (!loadDataFromUrl()) {
+                // Carregar do localStorage como antes
+                items = JSON.parse(localStorage.getItem('giftItems')) || initialItems;
+                categories = JSON.parse(localStorage.getItem('categoryList')) || [...new Set(items.map(item => item.category))];
+                mangas = JSON.parse(localStorage.getItem('mangaList')) || predefinedMangas;
+            }
+            
+            // Sua inicialização normal...
+            renderItems();
+            populateCategoryFilters();
+            populateMangaFilters();
+            updateTotalValue();
+            updateShareUrl(); // Atualizar URL inicial
+            
+            // Atualizar URL sempre que os dados mudarem
+            // Você pode adicionar isso em todas as funções que modificam os dados
+        });
+
+        // Exemplo de como atualizar em outras funções:
+        function deleteItem(id) {
+            if (confirm('Tem certeza que deseja excluir este item?')) {
+                items = items.filter(item => item.id !== id);
+                localStorage.setItem('giftItems', JSON.stringify(items));
+                renderItems();
+                updateTotalValue();
+                updateShareUrl(); // ← Adicionar esta linha
+            }
+        }
+
+        function togglePurchase(id) {
+            const item = items.find(item => item.id === id);
+            if (item) {
+                item.purchased = !item.purchased;
+                localStorage.setItem('giftItems', JSON.stringify(items));
+                renderItems();
+                updateTotalValue();
+                updateShareUrl(); // ← Adicionar esta linha
+            }
+        }
+    </script>
 </body>
 </html>
