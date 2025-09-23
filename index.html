@@ -42,6 +42,21 @@
         <div class="total">
             Total estimado: R$ <span id="totalValue">0</span>
         </div>
+        
+        <!-- NOVA SEÇÃO: Compartilhamento -->
+        <div class="share-section">
+            <h3>📤 Compartilhar Lista</h3>
+            <p>Copie o link abaixo para compartilhar sua lista atualizada:</p>
+            <div class="share-url-container">
+                <input type="text" class="share-url" id="shareUrl" readonly>
+                <button class="copy-btn" id="copyBtn">📋 Copiar</button>
+            </div>
+            <div class="share-info">
+                <p>✅ <strong>Este link contém todos os itens da sua lista</strong></p>
+                <p>🔗 <strong>Como usar:</strong> Envie este link para amigos/família</p>
+                <p>⚠️ <strong>Limitação:</strong> O link pode ficar muito longo com muitos itens</p>
+            </div>
+        </div>
     </div>
     
     <!-- Modal para adicionar/editar itens -->
@@ -99,12 +114,11 @@
         </div>
     </div>
     
-    <!-- Popup para adicionar nova categoria -->
+    <!-- Popups para adicionar categoria e mangá -->
     <div class="popup" id="categoryPopup">
         <div class="popup-content">
             <h3>Adicionar Nova Categoria</h3>
             <div class="form-group">
-                <label for="newCategoryName">Nome da Categoria</label>
                 <input type="text" id="newCategoryName" placeholder="Ex: Action Figures, Funko Pop, etc.">
             </div>
             <div class="popup-actions">
@@ -114,12 +128,10 @@
         </div>
     </div>
     
-    <!-- Popup para adicionar novo mangá -->
     <div class="popup" id="mangaPopup">
         <div class="popup-content">
             <h3>Adicionar Novo Mangá</h3>
             <div class="form-group">
-                <label for="newMangaName">Nome do Mangá</label>
                 <input type="text" id="newMangaName" placeholder="Ex: Attack on Titan, One Piece, etc.">
             </div>
             <div class="popup-actions">
@@ -129,6 +141,9 @@
         </div>
     </div>
     
-    <script src="script.js"></script>
+    <script src="data-manager.js"></script>
+    <script src="ui-manager.js"></script>
+    <script src="share-manager.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>
