@@ -443,7 +443,274 @@
             }
         }
 
+        // share-manager.js
+class ShareManager {
+    constructor() {
+        this.shareUrlElement = document.getElementById('shareUrl');
+        this.copyBtn = document.getElementById('copyBtn');
+        this.init();
+    }
+
+    init() {
+        this.setupEventListeners();
+        this.updateShareUrl(); // Atualizar URL inicial
+    }
+
+    setupEventListeners() {
+        this.copyBtn.addEventListener('click', () => this.copyShareUrl());
+        
+        // Atualizar URL quando a página for carregada com parâmetros
+        window.addEventListener('load', () => {
+            if (this.hasSharedData()) {
+                this.showSuccessMessage('✅ Lista carregada do link compartilhado!');
+            }
+        });
+    }
+
+    // Codificar dados para URL (com compressão)
+    encodeData(data) {
+        try {
+            const jsonString = JSON.stringify(data);
+            // Comprimir removendo espaços desnecessários
+            const compressed = jsonString.replace(/\s+/g, ' ');
+            return btoa(compressed);
+        } catch (error) {
+            console.error('Erro ao codificar dados:', error);
+            return null;
+        }
+    }
+
+    // Decodificar dados da URL
+    decodeData(encodedData) {
+        try {
+            const decoded = atob(encodedData);
+            return JSON.parse(decoded);
+        } catch (error) {
+            console.error('Erro ao decodificar dados:', error);
+            return null;
+        }
+    }
+
+    // Verificar se há dados compartilhados na URL
+    hasSharedData() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.has('data');
+    }
+
+    // Carregar dados da URL
+    loadDataFromUrl() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const encodedData = urlParams.get('data');
+        
+        if (encodedData) {
+            const data = this.decodeData(encodedData);
+            if (data && this.validateData(data)) {
+                return data;
+            }
+        }
+        return null;
+    }
+
+    // Validar estrutura dos dados
+    validateData(data) {
+        return data.items && Array.isArray(data.items) &&
+               data.categories && Array.isArray(data.categories) &&
+               data.mangas && Array.isArray(data.mangas);
+    }
+
+    // Atualizar URL de compartilhamento
+    updateShareUrl(items, categories, mangas) {
+        const data = {
+            items: items,
+            categories: categories,
+            mangas: mangas,
+            timestamp: new Date().getTime(),
+            version: '1.0'
+        };
+        
+        const encodedData = this.encodeData(data);
+        if (encodedData) {
+            const shareUrl = this.generateShareUrl(encodedData);
+            this.shareUrlElement.value = shareUrl;
+            
+            // Atualizar URL atual sem recarregar a página
+            this.updateBrowserUrl(encodedData);
+        }
+    }
+
+    // Gerar URL completa para compartilhamento
+    generateShareUrl(encodedData) {
+        return window.location.origin + window.location.pathname + '?data=' + encodedData;
+    }
+
+    // Atualizar URL do navegador
+    updateBrowserUrl(encodedData) {
+        const newUrl = window.location.origin + window.location.pathname + '?data=' + encodedData;
+        window.history.replaceState({ path: newUrl }, '', newUrl);
+    }
+
+    // Copiar URL para área de transferência
+    async copyShareUrl() {
+        try {
+            await navigator.clipboard.writeText(this.shareUrlElement.value);
+            this.showSuccessMessage('✅ Link copiado para a área de transferência!');
+            
+            // Efeito visual no botão
+            this.copyBtn.textContent = '✅ Copiado!';
+            setTimeout(() => {
+                this.copyBtn.textContent = '📋 Copiar';
+            }, 2000);
+            
+        } catch (err) {
+            // Fallback para navegadores mais antigos
+            this.fallbackCopy();
+        }
+    }
+
+    // Fallback para copiar texto
+    fallbackCopy() {
+        this.shareUrlElement.select();
+        this.shareUrlElement.setSelectionRange(0, 99999);
+        document.execCommand('copy');
+        this.showSuccessMessage('✅ Link copiado!');
+    }
+
+    // Mostrar mensagem de sucesso
+    showSuccessMessage(message) {
+        // Criar elemento de mensagem
+        const messageEl = document.createElement('div');
+        messageEl.textContent = message;
+        messageEl.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #2ecc71;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            z-index: 10000;
+            animation: slideIn 0.3s ease;
+        `;
+        
+        document.body.appendChild(messageEl);
+        
+        // Remover após 3 segundos
+        setTimeout(() => {
+            messageEl.remove();
+        }, 3000);
+    }
+
+    // Limpar dados compartilhados (voltar para lista local)
+    clearSharedData() {
+        window.history.replaceState({}, '', window.location.pathname);
+        this.shareUrlElement.value = window.location.origin + window.location.pathname;
+        this.showSuccessMessage('🔁 Modo local ativado');
+    }
+
+    // Verificar se a URL é muito longa (limitação do navegador)
+    isUrlTooLong() {
+        return this.shareUrlElement.value.length > 2000;
+    }
+
+    // Obter estatísticas dos dados
+    getDataStats(items) {
+        return {
+            totalItems: items.length,
+            purchasedItems: items.filter(item => item.purchased).length,
+            totalValue: items.filter(item => !item.purchased)
+                           .reduce((sum, item) => sum + item.price, 0)
+        };
+    }
+}
+
+// Exportar para uso global
+window.ShareManager = ShareManager;
+
+// main.js - Código principal com integração do compartilhamento
+document.addEventListener('DOMContentLoaded', function() {
+    // Inicializar gerenciador de compartilhamento
+    const shareManager = new ShareManager();
+    
+    // Verificar se há dados compartilhados na URL
+    const sharedData = shareManager.loadDataFromUrl();
+    
+    if (sharedData) {
+        // Usar dados compartilhados
+        window.items = sharedData.items;
+        window.categories = sharedData.categories;
+        window.mangas = sharedData.mangas;
+    } else {
+        // Usar dados locais
+        window.items = JSON.parse(localStorage.getItem('giftItems')) || initialItems;
+        window.categories = JSON.parse(localStorage.getItem('categoryList')) || [...new Set(initialItems.map(item => item.category))];
+        window.mangas = JSON.parse(localStorage.getItem('mangaList')) || predefinedMangas;
+    }
+    
+    // Inicializar interface
+    renderItems();
+    populateCategoryFilters();
+    populateMangaFilters();
+    updateTotalValue();
+    
+    // Atualizar URL de compartilhamento
+    shareManager.updateShareUrl(items, categories, mangas);
+});
+
+// Modificar a função saveItem para atualizar o compartilhamento
+function saveItem(e) {
+    e.preventDefault();
+    
+    // ... código existente do saveItem ...
+    
+    // Após salvar, atualizar localStorage e URL compartilhável
+    localStorage.setItem('giftItems', JSON.stringify(items));
+    localStorage.setItem('categoryList', JSON.stringify(categories));
+    localStorage.setItem('mangaList', JSON.stringify(mangas));
+    
+    // Atualizar URL de compartilhamento
+    if (window.shareManager) {
+        window.shareManager.updateShareUrl(items, categories, mangas);
+    }
+    
+    renderItems();
+    updateTotalValue();
+    closeModal();
+}
+
+// Modificar outras funções que alteram dados
+function deleteItem(id) {
+    if (confirm('Tem certeza que deseja excluir este item?')) {
+        items = items.filter(item => item.id !== id);
+        localStorage.setItem('giftItems', JSON.stringify(items));
+        
+        // Atualizar URL de compartilhamento
+        if (window.shareManager) {
+            window.shareManager.updateShareUrl(items, categories, mangas);
+        }
+        
+        renderItems();
+        updateTotalValue();
+    }
+}
+
+function togglePurchase(id) {
+    const item = items.find(item => item.id === id);
+    if (item) {
+        item.purchased = !item.purchased;
+        localStorage.setItem('giftItems', JSON.stringify(items));
+        
+        // Atualizar URL de compartilhamento
+        if (window.shareManager) {
+            window.shareManager.updateShareUrl(items, categories, mangas);
+        }
+        
+        renderItems();
+        updateTotalValue();
+    }
+}
+
         // Tornar funções disponíveis globalmente para os event listeners
         window.togglePurchase = togglePurchase;
         window.editItem = editItem;
         window.deleteItem = deleteItem;
+
