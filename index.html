@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Presentes - Eduardo</title>
     <style>
-         * {
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -13,14 +13,14 @@
         }
         
         body {
-            background: linear-gradient( 90deg, #f83600, #f9d423);
+            background-color: #f5f5f5;
             color: #333;
             line-height: 1.6;
         }
         
         .container {
-            max-width: 1290px;
-            margin:  auto;
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 20px;
         }
         
@@ -28,10 +28,10 @@
             text-align: center;
             margin-bottom: 30px;
             padding: 20px;
-            background-color: #8B0000;
+            background-color: #2c3e50;
             color: white;
             border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         
         h1 {
@@ -55,7 +55,7 @@
         
         button {
             padding: 10px 15px;
-            background-color: #2f2f2f;
+            background-color: #3498db;
             color: white;
             border: none;
             border-radius: 4px;
@@ -64,7 +64,7 @@
         }
         
         button:hover {
-            background-color: #1a3f58;
+            background-color: #2980b9;
         }
         
         select, input {
@@ -92,7 +92,7 @@
             border-radius: 8px;
             width: 90%;
             max-width: 500px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             max-height: 90vh;
             overflow-y: auto;
         }
@@ -128,10 +128,10 @@
         }
         
         .item-card {
-            background-color: rgb(255, 255, 255);
+            background-color: white;
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s, box-shadow 0.3s;
         }
         
@@ -142,7 +142,7 @@
         
         .item-image {
             width: 100%;
-            height: 400px;
+            height: 200px;
             object-fit: cover;
         }
         
@@ -170,7 +170,7 @@
             font-size: 0.8rem;
             margin-bottom: 10px;
         }
-
+        
         .item-work {
             display: inline-block;
             background-color: #d5dbdb;
@@ -183,11 +183,11 @@
         
         .item-actions {
             display: flex;
-            justify-content: column;
+            flex-direction: column;
             gap: 10px;
             margin-top: 15px;
         }
-
+        
         .item-link-container {
             text-align: center;
             margin-bottom: 10px;
@@ -200,12 +200,10 @@
         }
         
         .item-link:hover {
-            
-            transition: transform 0.3s ease; /* animação suave */
-            transform: scale(1.1);
+            text-decoration: underline;
         }
-
-         .action-buttons {
+        
+        .action-buttons {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
@@ -218,14 +216,25 @@
             padding: 8px 12px;
             font-size: 0.9rem;
         }
-
+        
+        .purchase-btn {
+            background-color: #27ae60;
+        }
         
         .purchase-btn:hover {
             background-color: #219653;
         }
         
+        .edit-btn {
+            background-color: #f39c12;
+        }
+        
         .edit-btn:hover {
             background-color: #e67e22;
+        }
+        
+        .delete-btn {
+            background-color: #e74c3c;
         }
         
         .delete-btn:hover {
@@ -257,7 +266,7 @@
             font-size: 1.2rem;
             font-weight: bold;
         }
-
+        
         .hidden {
             display: none;
         }
@@ -295,6 +304,116 @@
             margin-top: 15px;
         }
         
+        /* NOVOS ESTILOS PARA COMPARTILHAMENTO */
+        .share-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            color: white;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .share-section h3 {
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .share-url-container {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .share-url {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .share-url::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .copy-btn {
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .copy-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .share-info {
+            margin-top: 15px;
+            text-align: left;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .share-info p {
+            margin: 8px 0;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        /* Estilos para mensagens */
+        .message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            z-index: 10000;
+            animation: slideIn 0.3s ease;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .message.success {
+            background: #2ecc71;
+        }
+        
+        .message.warning {
+            background: #f39c12;
+        }
+        
+        .message.error {
+            background: #e74c3c;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
         @media (max-width: 768px) {
             .controls {
                 flex-direction: column;
@@ -307,6 +426,7 @@
             .items-grid {
                 grid-template-columns: 1fr;
             }
+            
             .action-buttons {
                 flex-direction: column;
             }
@@ -315,29 +435,18 @@
                 width: 100%;
                 margin-bottom: 5px;
             }
-        .share-section {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #e8f4f8;
-            border-radius: 8px;
-            text-align: center;
-        }
-        
-        .share-url {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #3498db;
-            border-radius: 4px;
-            background-color: white;
-        }
-        
-        .copy-btn {
-            background-color: #2ecc71;
-        }
-        
-        .copy-btn:hover {
-            background-color: #27ae60;
+            
+            .share-url-container {
+                flex-direction: column;
+            }
+            
+            .share-section {
+                padding: 15px;
+            }
+            
+            .share-info p {
+                font-size: 0.85rem;
+            }
         }
     </style>
 </head>
@@ -376,6 +485,21 @@
         
         <div class="total">
             Total estimado: R$ <span id="totalValue">0</span>
+        </div>
+        
+        <!-- NOVA SEÇÃO: Compartilhamento -->
+        <div class="share-section">
+            <h3>📤 Compartilhar Lista</h3>
+            <p>Copie o link abaixo para compartilhar sua lista atualizada:</p>
+            <div class="share-url-container">
+                <input type="text" class="share-url" id="shareUrl" readonly>
+                <button class="copy-btn" id="copyBtn">📋 Copiar</button>
+            </div>
+            <div class="share-info">
+                <p>✅ <strong>Este link contém todos os itens da sua lista</strong></p>
+                <p>🔗 <strong>Como usar:</strong> Envie este link para amigos/família</p>
+                <p>⚠️ <strong>Limitação:</strong> O link pode ficar muito longo com muitos itens</p>
+            </div>
         </div>
     </div>
     
@@ -434,12 +558,11 @@
         </div>
     </div>
     
-    <!-- Popup para adicionar nova categoria -->
+    <!-- Popups para adicionar categoria e mangá -->
     <div class="popup" id="categoryPopup">
         <div class="popup-content">
             <h3>Adicionar Nova Categoria</h3>
             <div class="form-group">
-                <label for="newCategoryName">Nome da Categoria</label>
                 <input type="text" id="newCategoryName" placeholder="Ex: Action Figures, Funko Pop, etc.">
             </div>
             <div class="popup-actions">
@@ -449,12 +572,10 @@
         </div>
     </div>
     
-    <!-- Popup para adicionar novo mangá -->
     <div class="popup" id="mangaPopup">
         <div class="popup-content">
             <h3>Adicionar Novo Mangá</h3>
             <div class="form-group">
-                <label for="newMangaName">Nome do Mangá</label>
                 <input type="text" id="newMangaName" placeholder="Ex: Attack on Titan, One Piece, etc.">
             </div>
             <div class="popup-actions">
@@ -463,117 +584,445 @@
             </div>
         </div>
     </div>
-        <div class="share-section">
-            <h3>Compartilhar Lista</h3>
-            <p>Copie o link abaixo para compartilhar sua lista atual:</p>
-            <input type="text" class="share-url" id="shareUrl" readonly>
-            <button class="copy-btn" id="copyBtn">Copiar Link</button>
-            <p><small>Este link contém todos os itens da sua lista atual.</small></p>
-        </div>
-    </div>
 
     <script>
-        // Função para codificar os dados em Base64
-        function encodeData(data) {
-            return btoa(JSON.stringify(data));
-        }
-
-        // Função para decodificar os dados de Base64
-        function decodeData(encodedData) {
-            try {
-                return JSON.parse(atob(encodedData));
-            } catch (e) {
-                return null;
+        // ===== DADOS INICIAIS =====
+        const initialItems = [
+            {
+                id: 1,
+                name: "Mangá Ataque dos titãs 2 em 1 vol.1",
+                price: 45,
+                category: "Mangás",
+                work: "Ataque dos Titãs",
+                platform: "Amazon",
+                link: "https://www.amazon.com.br/gp/product/6525905265/ref=ewc_pr_img_1?smid=A1ZZFT5FULY4LN&psc=1",
+                image: "",
+                notes: "Sem categoria explicita",
+                purchased: false
+            },
+            {
+                id: 2,
+                name: "Mangá 20th Century Boys Definitive Edition vol.1",
+                price: 60,
+                category: "Mangás",
+                work: "20th Century Boys",
+                platform: "Amazon",
+                link: "https://www.amazon.com.br/gp/product/6525933110/ref=ewc_pr_img_4?smid=A1ZZFT5FULY4LN&psc=1",
+                image: "",
+                notes: "Boneco/Action Figure",
+                purchased: false
+            },
+            {
+                id: 3,
+                name: "Apoio para pulso redragon infernal",
+                price: 50,
+                category: "Acessórios",
+                platform: "Amazon",
+                link: "https://www.amazon.com.br/Teclado-Redragon-ID023-Infernal-Dragon/dp/B091Q8T556/ref=pd_ci_mcx_mh_mcx_views_0_title",
+                image: "",
+                notes: "",
+                purchased: false
+            },
+            {
+                id: 4,
+                name: "Relógio Casio Vintage A138",
+                price: 200,
+                category: "Acessórios",
+                platform: "Mercado livre",
+                link: "https://produto.mercadolivre.com.br/MLB-4165923599-relogio-casio-vintage-a138-edico-limitada-original-preto-_JM?attributes=BEZEL_COLOR%3AUHJldG8%3D%2CSTRAP_COLOR%3AUHJldG8%3D&quantity=1&picker=true",
+                image: "",
+                notes: "",
+                purchased: false
             }
-        }
+        ];
 
-        // Função para atualizar a URL com os dados atuais
-        function updateShareUrl() {
-            const data = {
-                items: items,
-                categories: categories,
-                mangas: mangas,
-                timestamp: new Date().getTime()
-            };
-            
-            const encodedData = encodeData(data);
-            const shareUrl = window.location.origin + window.location.pathname + '?data=' + encodedData;
-            document.getElementById('shareUrl').value = shareUrl;
-            
-            // Atualizar a URL atual sem recarregar a página
-            window.history.replaceState({}, '', '?data=' + encodedData);
-        }
+        const predefinedMangas = [
+            "Ataque dos Titãs", "20th Century Boys", "A Voz do Silêncio", 
+            "The Promised Neverland", "Oshi no Ko", "One Piece", 
+            "Naruto", "Dragon Ball", "Death Note", "Berserk"
+        ];
 
-        // Função para carregar dados da URL
-        function loadDataFromUrl() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const encodedData = urlParams.get('data');
-            
-            if (encodedData) {
-                const data = decodeData(encodedData);
-                if (data && data.items) {
-                    items = data.items;
-                    categories = data.categories || categories;
-                    mangas = data.mangas || mangas;
-                    
-                    // Salvar também no localStorage para uso local
-                    localStorage.setItem('giftItems', JSON.stringify(items));
-                    localStorage.setItem('categoryList', JSON.stringify(categories));
-                    localStorage.setItem('mangaList', JSON.stringify(mangas));
-                    
-                    return true;
+        // ===== VARIÁVEIS GLOBAIS =====
+        let items = [];
+        let categories = [];
+        let mangas = [];
+        let editingItemId = null;
+
+        // ===== ELEMENTOS DOM =====
+        const itemsContainer = document.getElementById('itemsContainer');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const statusFilter = document.getElementById('statusFilter');
+        const searchInput = document.getElementById('searchInput');
+        const mangaFilterContainer = document.getElementById('mangaFilterContainer');
+        const mangaFilter = document.getElementById('mangaFilter');
+        const addItemBtn = document.getElementById('addItemBtn');
+        const itemModal = document.getElementById('itemModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const itemForm = document.getElementById('itemForm');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const itemCategory = document.getElementById('itemCategory');
+        const workGroup = document.getElementById('workGroup');
+        const itemWork = document.getElementById('itemWork');
+        const totalValue = document.getElementById('totalValue');
+        const addCategoryBtn = document.getElementById('addCategoryBtn');
+        const addMangaBtn = document.getElementById('addMangaBtn');
+        const categoryPopup = document.getElementById('categoryPopup');
+        const mangaPopup = document.getElementById('mangaPopup');
+        const newCategoryName = document.getElementById('newCategoryName');
+        const newMangaName = document.getElementById('newMangaName');
+        const cancelCategoryBtn = document.getElementById('cancelCategoryBtn');
+        const saveCategoryBtn = document.getElementById('saveCategoryBtn');
+        const cancelMangaBtn = document.getElementById('cancelMangaBtn');
+        const saveMangaBtn = document.getElementById('saveMangaBtn');
+        const shareUrl = document.getElementById('shareUrl');
+        const copyBtn = document.getElementById('copyBtn');
+
+        // ===== GERENCIADOR DE COMPARTILHAMENTO =====
+        class ShareManager {
+            constructor() {
+                this.shareUrlElement = document.getElementById('shareUrl');
+                this.copyBtn = document.getElementById('copyBtn');
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+            }
+
+            setupEventListeners() {
+                this.copyBtn.addEventListener('click', () => this.copyShareUrl());
+            }
+
+            encodeData(data) {
+                try {
+                    const jsonString = JSON.stringify(data);
+                    const compressed = jsonString.replace(/\s+/g, ' ');
+                    return btoa(compressed);
+                } catch (error) {
+                    console.error('Erro ao codificar dados:', error);
+                    return null;
                 }
             }
-            return false;
+
+            decodeData(encodedData) {
+                try {
+                    const decoded = atob(encodedData);
+                    return JSON.parse(decoded);
+                } catch (error) {
+                    console.error('Erro ao decodificar dados:', error);
+                    return null;
+                }
+            }
+
+            hasSharedData() {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.has('data');
+            }
+
+            loadDataFromUrl() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const encodedData = urlParams.get('data');
+                
+                if (encodedData) {
+                    const data = this.decodeData(encodedData);
+                    if (data && this.validateData(data)) {
+                        return data;
+                    }
+                }
+                return null;
+            }
+
+            validateData(data) {
+                return data.items && Array.isArray(data.items);
+            }
+
+            updateShareUrl() {
+                const data = {
+                    items: items,
+                    categories: categories,
+                    mangas: mangas,
+                    timestamp: new Date().getTime(),
+                    version: '1.0'
+                };
+                
+                const encodedData = this.encodeData(data);
+                if (encodedData) {
+                    const shareUrl = this.generateShareUrl(encodedData);
+                    this.shareUrlElement.value = shareUrl;
+                    this.updateBrowserUrl(encodedData);
+                }
+            }
+
+            generateShareUrl(encodedData) {
+                return window.location.origin + window.location.pathname + '?data=' + encodedData;
+            }
+
+            updateBrowserUrl(encodedData) {
+                const newUrl = window.location.origin + window.location.pathname + '?data=' + encodedData;
+                window.history.replaceState({ path: newUrl }, '', newUrl);
+            }
+
+            async copyShareUrl() {
+                try {
+                    await navigator.clipboard.writeText(this.shareUrlElement.value);
+                    this.showMessage('✅ Link copiado para a área de transferência!', 'success');
+                    
+                    this.copyBtn.textContent = '✅ Copiado!';
+                    setTimeout(() => {
+                        this.copyBtn.textContent = '📋 Copiar';
+                    }, 2000);
+                    
+                } catch (err) {
+                    this.fallbackCopy();
+                }
+            }
+
+            fallbackCopy() {
+                this.shareUrlElement.select();
+                this.shareUrlElement.setSelectionRange(0, 99999);
+                document.execCommand('copy');
+                this.showMessage('✅ Link copiado!', 'success');
+            }
+
+            showMessage(text, type = 'success') {
+                const messageEl = document.createElement('div');
+                messageEl.textContent = text;
+                messageEl.className = `message ${type}`;
+                
+                document.body.appendChild(messageEl);
+                
+                setTimeout(() => {
+                    messageEl.remove();
+                }, 3000);
+            }
         }
 
-        // Modificar a função saveItem para atualizar a URL
-        function saveItem(e) {
-            e.preventDefault();
-            
-            // ... seu código atual de saveItem ...
-            
-            // Após salvar, atualizar a URL compartilhável
-            updateShareUrl();
-        }
+        // ===== FUNÇÕES PRINCIPAIS =====
+        const shareManager = new ShareManager();
 
-        // Adicionar evento de clique ao botão copiar
-        document.getElementById('copyBtn').addEventListener('click', function() {
-            const shareUrl = document.getElementById('shareUrl');
-            shareUrl.select();
-            document.execCommand('copy');
-            alert('Link copiado para a área de transferência!');
-        });
-
-        // Na inicialização, verificar se há dados na URL
-        document.addEventListener('DOMContentLoaded', function() {
-            // Primeiro tenta carregar da URL, depois do localStorage
-            if (!loadDataFromUrl()) {
-                // Carregar do localStorage como antes
+        function initializeApp() {
+            const sharedData = shareManager.loadDataFromUrl();
+            
+            if (sharedData) {
+                items = sharedData.items;
+                categories = sharedData.categories || [];
+                mangas = sharedData.mangas || [];
+                shareManager.showMessage('✅ Lista carregada do link compartilhado!', 'success');
+            } else {
                 items = JSON.parse(localStorage.getItem('giftItems')) || initialItems;
-                categories = JSON.parse(localStorage.getItem('categoryList')) || [...new Set(items.map(item => item.category))];
+                categories = JSON.parse(localStorage.getItem('categoryList')) || [...new Set(initialItems.map(item => item.category))];
                 mangas = JSON.parse(localStorage.getItem('mangaList')) || predefinedMangas;
             }
             
-            // Sua inicialização normal...
             renderItems();
             populateCategoryFilters();
             populateMangaFilters();
             updateTotalValue();
-            updateShareUrl(); // Atualizar URL inicial
-            
-            // Atualizar URL sempre que os dados mudarem
-            // Você pode adicionar isso em todas as funções que modificam os dados
-        });
+            shareManager.updateShareUrl();
+        }
 
-        // Exemplo de como atualizar em outras funções:
+        function renderItems() {
+            const category = categoryFilter.value;
+            const status = statusFilter.value;
+            const searchTerm = searchInput.value.toLowerCase();
+            const manga = mangaFilter.value;
+            
+            let filteredItems = items.filter(item => {
+                const matchesCategory = category === '' || item.category === category;
+                const matchesStatus = 
+                    status === 'todos' || 
+                    (status === 'disponiveis' && !item.purchased) ||
+                    (status === 'comprados' && item.purchased);
+                const matchesSearch = 
+                    item.name.toLowerCase().includes(searchTerm) ||
+                    (item.work && item.work.toLowerCase().includes(searchTerm)) ||
+                    item.category.toLowerCase().includes(searchTerm) ||
+                    (item.notes && item.notes.toLowerCase().includes(searchTerm));
+                const matchesManga = manga === '' || item.work === manga;
+                
+                return matchesCategory && matchesStatus && matchesSearch && matchesManga;
+            });
+            
+            itemsContainer.innerHTML = '';
+            
+            filteredItems.forEach(item => {
+                const itemCard = document.createElement('div');
+                itemCard.className = `item-card ${item.purchased ? 'comprado' : ''}`;
+                
+                itemCard.innerHTML = `
+                    ${item.image ? `<img src="${item.image}" alt="${item.name}" class="item-image">` : 
+                      `<div class="item-image" style="background-color: #ecf0f1; display: flex; align-items: center; justify-content: center;">
+                         <span>Sem imagem</span>
+                       </div>`}
+                    <div class="item-details">
+                        <h3 class="item-title">${item.name}</h3>
+                        <div class="item-price">R$ ${item.price.toFixed(2)}</div>
+                        <div>
+                            <span class="item-category">${item.category}</span>
+                            ${item.work ? `<span class="item-work">${item.work}</span>` : ''}
+                        </div>
+                        <p>${item.platform ? `Plataforma: ${item.platform}` : ''}</p>
+                        ${item.notes ? `<p>${item.notes}</p>` : ''}
+                        <div class="item-actions">
+                            <div class="item-link-container">
+                                ${item.link ? `<a href="${item.link}" target="_blank" class="item-link">Ver produto</a>` : 
+                                              `<span>Sem link</span>`}
+                            </div>
+                            <div class="action-buttons">
+                                <button onclick="togglePurchase(${item.id})" class="purchase-btn">
+                                    ${item.purchased ? 'Desmarcar' : 'Marcar como comprado'}
+                                </button>
+                                <button onclick="editItem(${item.id})" class="edit-btn">Editar</button>
+                                <button onclick="deleteItem(${item.id})" class="delete-btn">Excluir</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                itemsContainer.appendChild(itemCard);
+            });
+        }
+
+        function populateCategoryFilters() {
+            categoryFilter.innerHTML = '<option value="">Todas as categorias</option>';
+            itemCategory.innerHTML = '<option value="">Selecione uma categoria</option>';
+            
+            categories.forEach(category => {
+                const option1 = document.createElement('option');
+                option1.value = category;
+                option1.textContent = category;
+                categoryFilter.appendChild(option1);
+                
+                const option2 = document.createElement('option');
+                option2.value = category;
+                option2.textContent = category;
+                itemCategory.appendChild(option2);
+            });
+        }
+
+        function populateMangaFilters() {
+            mangaFilter.innerHTML = '<option value="">Todos os mangás</option>';
+            itemWork.innerHTML = '<option value="">Selecione um mangá</option>';
+            
+            mangas.forEach(manga => {
+                const option1 = document.createElement('option');
+                option1.value = manga;
+                option1.textContent = manga;
+                mangaFilter.appendChild(option1);
+                
+                const option2 = document.createElement('option');
+                option2.value = manga;
+                option2.textContent = manga;
+                itemWork.appendChild(option2);
+            });
+        }
+
+        function handleCategoryFilterChange() {
+            if (this.value === 'Mangás') {
+                mangaFilterContainer.classList.remove('hidden');
+            } else {
+                mangaFilterContainer.classList.add('hidden');
+                mangaFilter.value = '';
+            }
+            renderItems();
+        }
+
+        function openAddModal() {
+            editingItemId = null;
+            modalTitle.textContent = 'Adicionar Novo Item';
+            itemForm.reset();
+            workGroup.classList.add('hidden');
+            itemModal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            itemModal.style.display = 'none';
+            editingItemId = null;
+        }
+
+        function saveItem(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('itemName').value;
+            const price = parseFloat(document.getElementById('itemPrice').value);
+            const category = document.getElementById('itemCategory').value;
+            const work = document.getElementById('itemWork').value;
+            const platform = document.getElementById('itemPlatform').value;
+            const link = document.getElementById('itemLink').value;
+            const image = document.getElementById('itemImage').value;
+            const notes = document.getElementById('itemNotes').value;
+            
+            if (editingItemId) {
+                const index = items.findIndex(item => item.id === editingItemId);
+                if (index !== -1) {
+                    items[index] = {
+                        ...items[index],
+                        name,
+                        price,
+                        category,
+                        work: category === 'Mangás' ? work : '',
+                        platform,
+                        link,
+                        image,
+                        notes
+                    };
+                }
+            } else {
+                const newItem = {
+                    id: Date.now(),
+                    name,
+                    price,
+                    category,
+                    work: category === 'Mangás' ? work : '',
+                    platform,
+                    link,
+                    image,
+                    notes,
+                    purchased: false
+                };
+                
+                items.push(newItem);
+            }
+            
+            saveToLocalStorage();
+            shareManager.updateShareUrl();
+            renderItems();
+            updateTotalValue();
+            closeModal();
+        }
+
+        function editItem(id) {
+            const item = items.find(item => item.id === id);
+            if (!item) return;
+            
+            editingItemId = id;
+            modalTitle.textContent = 'Editar Item';
+            
+            document.getElementById('itemName').value = item.name;
+            document.getElementById('itemPrice').value = item.price;
+            document.getElementById('itemCategory').value = item.category;
+            document.getElementById('itemPlatform').value = item.platform || '';
+            document.getElementById('itemLink').value = item.link || '';
+            document.getElementById('itemImage').value = item.image || '';
+            document.getElementById('itemNotes').value = item.notes || '';
+            
+            if (item.category === 'Mangás') {
+                workGroup.classList.remove('hidden');
+                document.getElementById('itemWork').value = item.work || '';
+            } else {
+                workGroup.classList.add('hidden');
+            }
+            
+            itemModal.style.display = 'flex';
+        }
+
         function deleteItem(id) {
             if (confirm('Tem certeza que deseja excluir este item?')) {
                 items = items.filter(item => item.id !== id);
-                localStorage.setItem('giftItems', JSON.stringify(items));
+                saveToLocalStorage();
+                shareManager.updateShareUrl();
                 renderItems();
                 updateTotalValue();
-                updateShareUrl(); // ← Adicionar esta linha
             }
         }
 
@@ -581,13 +1030,77 @@
             const item = items.find(item => item.id === id);
             if (item) {
                 item.purchased = !item.purchased;
-                localStorage.setItem('giftItems', JSON.stringify(items));
+                saveToLocalStorage();
+                shareManager.updateShareUrl();
                 renderItems();
                 updateTotalValue();
-                updateShareUrl(); // ← Adicionar esta linha
             }
         }
-    </script>
-</body>
-</html>
 
+        function updateTotalValue() {
+            const total = items
+                .filter(item => !item.purchased)
+                .reduce((sum, item) => sum + item.price, 0);
+            
+            totalValue.textContent = total.toFixed(2);
+        }
+
+        function saveToLocalStorage() {
+            localStorage.setItem('giftItems', JSON.stringify(items));
+            localStorage.setItem('categoryList', JSON.stringify(categories));
+            localStorage.setItem('mangaList', JSON.stringify(mangas));
+        }
+
+        function openCategoryPopup() {
+            newCategoryName.value = '';
+            categoryPopup.style.display = 'flex';
+        }
+        
+        function closeCategoryPopup() {
+            categoryPopup.style.display = 'none';
+        }
+        
+        function saveNewCategory() {
+            const categoryName = newCategoryName.value.trim();
+            if (categoryName && !categories.includes(categoryName)) {
+                categories.push(categoryName);
+                saveToLocalStorage();
+                populateCategoryFilters();
+                itemCategory.value = categoryName;
+                closeCategoryPopup();
+                shareManager.updateShareUrl();
+            } else if (categories.includes(categoryName)) {
+                shareManager.showMessage('⚠️ Esta categoria já existe!', 'warning');
+            }
+        }
+        
+        function openMangaPopup() {
+            newMangaName.value = '';
+            mangaPopup.style.display = 'flex';
+        }
+        
+        function closeMangaPopup() {
+            mangaPopup.style.display = 'none';
+        }
+        
+        function saveNewManga() {
+            const mangaName = newMangaName.value.trim();
+            if (mangaName && !mangas.includes(mangaName)) {
+                mangas.push(mangaName);
+                saveToLocalStorage();
+                populateMangaFilters();
+                itemWork.value = mangaName;
+                closeMangaPopup();
+                shareManager.updateShareUrl();
+            } else if (mangas.includes(mangaName)) {
+                shareManager.showMessage('⚠️ Este mangá já existe!', 'warning');
+            }
+        }
+
+        // ===== EVENT LISTENERS =====
+        document.addEventListener('DOMContentLoaded', initializeApp);
+
+        addItemBtn.addEventListener('click', openAddModal);
+        cancelBtn.addEventListener('click', closeModal);
+        itemForm.addEventListener('submit', saveItem);
+        categoryFilter
