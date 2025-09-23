@@ -5,7 +5,316 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Presentes - Eduardo</title>
     <style>
-        /* Seus estilos anteriores aqui */
+         * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient( 90deg, #f83600, #f9d423);
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1290px;
+            margin:  auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #8B0000;
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 10px 15px;
+            background-color: #2f2f2f;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #1a3f58;
+        }
+        
+        select, input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .item-card {
+            background-color: rgb(255, 255, 255);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .item-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .item-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+        
+        .item-details {
+            padding: 15px;
+        }
+        
+        .item-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .item-price {
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 10px;
+        }
+        
+        .item-category {
+            display: inline-block;
+            background-color: #ecf0f1;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+
+        .item-work {
+            display: inline-block;
+            background-color: #d5dbdb;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+            margin-left: 5px;
+        }
+        
+        .item-actions {
+            display: flex;
+            justify-content: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .item-link-container {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .item-link {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .item-link:hover {
+            
+            transition: transform 0.3s ease; /* animação suave */
+            transform: scale(1.1);
+        }
+
+         .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .action-buttons button {
+            flex: 1;
+            min-width: 120px;
+            padding: 8px 12px;
+            font-size: 0.9rem;
+        }
+
+        
+        .purchase-btn:hover {
+            background-color: #219653;
+        }
+        
+        .edit-btn:hover {
+            background-color: #e67e22;
+        }
+        
+        .delete-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        .comprado {
+            opacity: 0.7;
+            position: relative;
+        }
+        
+        .comprado::after {
+            content: "COMPRADO";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            background-color: rgba(231, 76, 60, 0.8);
+            color: white;
+            padding: 5px 15px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border-radius: 4px;
+        }
+        
+        .total {
+            margin-top: 30px;
+            text-align: right;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .hidden {
+            display: none;
+        }
+        
+        .manga-filter {
+            margin-top: 10px;
+        }
+        
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .popup-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .popup-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+            }
+            
+            .filters {
+                justify-content: center;
+            }
+            
+            .items-grid {
+                grid-template-columns: 1fr;
+            }
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .action-buttons button {
+                width: 100%;
+                margin-bottom: 5px;
+            }
         .share-section {
             margin-top: 20px;
             padding: 15px;
@@ -34,8 +343,126 @@
 </head>
 <body>
     <div class="container">
-        <!-- Seu conteúdo atual aqui -->
+        <header>
+            <h1>Lista de Presentes para Eduardo</h1>
+            <p>Gerencie os presentes que você deseja comprar</p>
+        </header>
         
+        <div class="controls">
+            <div>
+                <div class="filters">
+                    <select id="categoryFilter">
+                        <option value="">Todas as categorias</option>
+                    </select>
+                    <select id="statusFilter">
+                        <option value="todos">Todos os itens</option>
+                        <option value="disponiveis">Disponíveis</option>
+                        <option value="comprados">Comprados</option>
+                    </select>
+                    <input type="text" id="searchInput" placeholder="Pesquisar por nome...">
+                </div>
+                <div class="manga-filter hidden" id="mangaFilterContainer">
+                    <select id="mangaFilter">
+                        <option value="">Todos os mangás</option>
+                    </select>
+                </div>
+            </div>
+            <button id="addItemBtn">Adicionar Item</button>
+        </div>
+        
+        <div class="items-grid" id="itemsContainer">
+            <!-- Itens serão inseridos aqui via JavaScript -->
+        </div>
+        
+        <div class="total">
+            Total estimado: R$ <span id="totalValue">0</span>
+        </div>
+    </div>
+    
+    <!-- Modal para adicionar/editar itens -->
+    <div class="modal" id="itemModal">
+        <div class="modal-content">
+            <h2 id="modalTitle">Adicionar Novo Item</h2>
+            <form id="itemForm">
+                <div class="form-group">
+                    <label for="itemName">Nome do Produto</label>
+                    <input type="text" id="itemName" required>
+                </div>
+                <div class="form-group">
+                    <label for="itemPrice">Preço (R$)</label>
+                    <input type="number" id="itemPrice" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="itemCategory">Categoria</label>
+                    <div style="display: flex; gap: 10px;">
+                        <select id="itemCategory" required style="flex: 1;">
+                            <option value="">Selecione uma categoria</option>
+                        </select>
+                        <button type="button" id="addCategoryBtn" style="white-space: nowrap;">+ Nova</button>
+                    </div>
+                </div>
+                <div class="form-group hidden" id="workGroup">
+                    <label for="itemWork">Obra (para mangás)</label>
+                    <div style="display: flex; gap: 10px;">
+                        <select id="itemWork" style="flex: 1;">
+                            <option value="">Selecione um mangá</option>
+                        </select>
+                        <button type="button" id="addMangaBtn" style="white-space: nowrap;">+ Novo</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="itemPlatform">Plataforma</label>
+                    <input type="text" id="itemPlatform">
+                </div>
+                <div class="form-group">
+                    <label for="itemLink">Link</label>
+                    <input type="url" id="itemLink">
+                </div>
+                <div class="form-group">
+                    <label for="itemImage">URL da Imagem</label>
+                    <input type="url" id="itemImage">
+                </div>
+                <div class="form-group">
+                    <label for="itemNotes">Observações</label>
+                    <textarea id="itemNotes" rows="3"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" id="cancelBtn">Cancelar</button>
+                    <button type="submit" id="saveBtn">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Popup para adicionar nova categoria -->
+    <div class="popup" id="categoryPopup">
+        <div class="popup-content">
+            <h3>Adicionar Nova Categoria</h3>
+            <div class="form-group">
+                <label for="newCategoryName">Nome da Categoria</label>
+                <input type="text" id="newCategoryName" placeholder="Ex: Action Figures, Funko Pop, etc.">
+            </div>
+            <div class="popup-actions">
+                <button type="button" id="cancelCategoryBtn">Cancelar</button>
+                <button type="button" id="saveCategoryBtn">Salvar</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Popup para adicionar novo mangá -->
+    <div class="popup" id="mangaPopup">
+        <div class="popup-content">
+            <h3>Adicionar Novo Mangá</h3>
+            <div class="form-group">
+                <label for="newMangaName">Nome do Mangá</label>
+                <input type="text" id="newMangaName" placeholder="Ex: Attack on Titan, One Piece, etc.">
+            </div>
+            <div class="popup-actions">
+                <button type="button" id="cancelMangaBtn">Cancelar</button>
+                <button type="button" id="saveMangaBtn">Salvar</button>
+            </div>
+        </div>
+    </div>
         <div class="share-section">
             <h3>Compartilhar Lista</h3>
             <p>Copie o link abaixo para compartilhar sua lista atual:</p>
@@ -163,3 +590,4 @@
     </script>
 </body>
 </html>
+
