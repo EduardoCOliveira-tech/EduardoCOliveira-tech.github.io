@@ -1,0 +1,197 @@
+/* Importa a fonte da imagem */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f0f2f5; /* Fundo mais claro, similar ao Smart Wall */
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #ffffff; /* Fundo branco */
+    padding: 20px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 900;
+    color: #1a73e8; /* Azul primário do Smart Wall */
+    text-decoration: none;
+}
+
+.navbar nav {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #555;
+    font-weight: 700;
+    padding: 8px 12px;
+}
+
+.btn-primary, .btn-secondary {
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 700;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #1a73e8; /* Azul primário */
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background-color: #155cb7; /* Tom de azul mais escuro no hover */
+}
+
+.btn-secondary {
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+.btn-secondary:hover {
+    background-color: #ccc;
+}
+
+
+/* Hero Section */
+.hero {
+    padding: 80px 0;
+    text-align: center;
+    background-color: #ffffff;
+}
+
+.hero h1 {
+    font-size: 52px;
+    font-weight: 900;
+    line-height: 1.2;
+    margin-bottom: 20px;
+}
+
+.hero .highlight {
+    color: #888; /* Mantém um cinza suave para o destaque */
+}
+
+.hero .subtitle {
+    font-size: 18px;
+    color: #555;
+    max-width: 600px;
+    margin: 0 auto 30px;
+}
+
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+/* Features Section */
+.features {
+    padding: 80px 0;
+    background-color: #f0f2f5; /* Fundo claro */
+}
+
+.features h2 {
+    text-align: center;
+    font-size: 36px;
+    font-weight: 900;
+    margin-bottom: 50px;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.feature-card {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 30px;
+    text-align: left;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Sombra suave */
+}
+
+.feature-card .icon-wrapper {
+    font-size: 30px;
+    margin-bottom: 15px;
+    color: #1a73e8; /* Ícones em azul */
+}
+
+.feature-card h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.feature-card p {
+    color: #555;
+}
+
+/* CTA Section */
+.cta {
+    background-color: #1a73e8; /* Azul primário */
+    color: #fff;
+    padding: 80px 0;
+    text-align: center;
+    border-radius: 20px;
+    margin: 40px auto;
+    max-width: 1100px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra mais pronunciada */
+}
+
+.cta h2 {
+    font-size: 36px;
+    font-weight: 900;
+    margin-bottom: 15px;
+}
+
+.cta p {
+    font-size: 18px;
+    color: #e0f2fe; /* Azul claro para o texto */
+    margin-bottom: 30px;
+}
+
+.cta .btn-primary {
+    background-color: #fff;
+    color: #1a73e8; /* Texto do botão em azul */
+}
+
+.cta .btn-primary:hover {
+    background-color: #e0e0e0;
+}
+
+/* Footer */
+.footer {
+    padding: 40px 0;
+    text-align: center;
+    color: #888;
+}

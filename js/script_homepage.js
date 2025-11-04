@@ -1,0 +1,409 @@
+/* === Conteúdo de script_homepage.js (Funcionalidades da Sidebar) === */
+
+// Toggle the visibility of a dropdown menu
+const toggleDropdown = (dropdown, menu, isOpen) => {
+    dropdown.classList.toggle("open", isOpen);
+    menu.style.height = isOpen ? `${menu.scrollHeight}px` : 0;
+  };
+  // Close all open dropdowns
+  const closeAllDropdowns = () => {
+    document.querySelectorAll(".dropdown-container.open").forEach((openDropdown) => {
+      toggleDropdown(openDropdown, openDropdown.querySelector(".dropdown-menu"), false);
+    });
+  };
+  // Attach click event to all dropdown toggles
+  document.querySelectorAll(".dropdown-toggle").forEach((dropdownToggle) => {
+    dropdownToggle.addEventListener("click", (e) => {
+      e.preventDefault();
+      const dropdown = dropdownToggle.closest(".dropdown-container");
+      const menu = dropdown.querySelector(".dropdown-menu");
+      const isOpen = dropdown.classList.contains("open");
+      closeAllDropdowns(); // Close all open dropdowns
+      toggleDropdown(dropdown, menu, !isOpen); // Toggle current dropdown visibility
+    });
+  });
+  // Attach click event to sidebar toggle buttons
+  document.querySelectorAll(".sidebar-toggler, .sidebar-menu-button").forEach((button) => {
+    button.addEventListener("click", () => {
+      closeAllDropdowns(); // Close all open dropdowns
+      document.querySelector(".sidebar").classList.toggle("collapsed"); // Toggle collapsed class on sidebar
+    });
+  });
+  // Collapse sidebar by default on small screens
+  if (window.innerWidth <= 1024) document.querySelector(".sidebar").classList.add("collapsed");
+
+
+/* === Conteúdo de script.js (Funcionalidades da Lista de Presentes) === */
+
+// Dados iniciais baseados na planilha
+const initialItems = [];
+
+// Mangás pré-definidos
+const predefinedMangas = [];
+
+// Variáveis globais
+let items = JSON.parse(localStorage.getItem('giftItems')) || initialItems;
+let mangas = JSON.parse(localStorage.getItem('mangaList')) || predefinedMangas;
+let categories = JSON.parse(localStorage.getItem('categoryList')) || [...new Set(items.map(item => item.category))];
+let editingItemId = null;
+
+// Elementos DOM
+const itemsContainer = document.getElementById('itemsContainer');
+const categoryFilter = document.getElementById('categoryFilter');
+const statusFilter = document.getElementById('statusFilter');
+const searchInput = document.getElementById('searchInput');
+const mangaFilterContainer = document.getElementById('mangaFilterContainer');
+const mangaFilter = document.getElementById('mangaFilter');
+const addItemBtn = document.getElementById('addItemBtn');
+const itemModal = document.getElementById('itemModal');
+const modalTitle = document.getElementById('modalTitle');
+const itemForm = document.getElementById('itemForm');
+const cancelBtn = document.getElementById('cancelBtn');
+const itemCategory = document.getElementById('itemCategory');
+const workGroup = document.getElementById('workGroup');
+const itemWork = document.getElementById('itemWork');
+const totalValue = document.getElementById('totalValue');
+const addCategoryBtn = document.getElementById('addCategoryBtn');
+const addMangaBtn = document.getElementById('addMangaBtn');
+const categoryPopup = document.getElementById('categoryPopup');
+const mangaPopup = document.getElementById('mangaPopup');
+const newCategoryName = document.getElementById('newCategoryName');
+const newMangaName = document.getElementById('newMangaName');
+const cancelCategoryBtn = document.getElementById('cancelCategoryBtn');
+const saveCategoryBtn = document.getElementById('saveCategoryBtn');
+const cancelMangaBtn = document.getElementById('cancelMangaBtn');
+const saveMangaBtn = document.getElementById('saveMangaBtn');
+
+// Inicialização
+document.addEventListener('DOMContentLoaded', function() {
+    // Verifica se os elementos da lista de presentes existem antes de adicionar listeners
+    if (itemsContainer) {
+        renderItems();
+        populateCategoryFilters();
+        populateMangaFilters();
+        updateTotalValue();
+        
+        // Event listeners da lista de presentes
+        addItemBtn.addEventListener('click', openAddModal);
+        cancelBtn.addEventListener('click', closeModal);
+        itemForm.addEventListener('submit', saveItem);
+        categoryFilter.addEventListener('change', handleCategoryFilterChange);
+        statusFilter.addEventListener('change', renderItems);
+        searchInput.addEventListener('input', renderItems);
+        mangaFilter.addEventListener('change', renderItems);
+        
+        // Mostrar/ocultar campo de obra baseado na categoria selecionada
+        itemCategory.addEventListener('change', function() {
+            if (this.value === 'Mangás') {
+                workGroup.classList.remove('hidden');
+            } else {
+                workGroup.classList.add('hidden');
+                itemWork.value = '';
+            }
+        });
+        
+        // Popups para adicionar categorias e mangás
+        addCategoryBtn.addEventListener('click', openCategoryPopup);
+        addMangaBtn.addEventListener('click', openMangaPopup);
+        cancelCategoryBtn.addEventListener('click', closeCategoryPopup);
+        saveCategoryBtn.addEventListener('click', saveNewCategory);
+        cancelMangaBtn.addEventListener('click', closeMangaPopup);
+        saveMangaBtn.addEventListener('click', saveNewManga);
+    }
+});
+
+// Função para lidar com mudanças no filtro de categoria
+function handleCategoryFilterChange() {
+    if (this.value === 'Mangás') {
+        mangaFilterContainer.classList.remove('hidden');
+    } else {
+        mangaFilterContainer.classList.add('hidden');
+        mangaFilter.value = '';
+    }
+    renderItems();
+}
+
+// Função para renderizar os itens
+function renderItems() {
+    const category = categoryFilter.value;
+    const status = statusFilter.value;
+    const searchTerm = searchInput.value.toLowerCase();
+    const manga = mangaFilter.value;
+    
+    // Filtrar itens
+    let filteredItems = items.filter(item => {
+        const matchesCategory = category === '' || item.category === category;
+        const matchesStatus = 
+            status === 'todos' || 
+            (status === 'disponiveis' && !item.purchased) ||
+            (status === 'comprados' && item.purchased);
+        const matchesSearch = 
+            item.name.toLowerCase().includes(searchTerm) ||
+            (item.work && item.work.toLowerCase().includes(searchTerm)) ||
+            item.category.toLowerCase().includes(searchTerm) ||
+            (item.notes && item.notes.toLowerCase().includes(searchTerm));
+        const matchesManga = manga === '' || item.work === manga;
+        
+        return matchesCategory && matchesStatus && matchesSearch && matchesManga;
+    });
+    
+    // Limpar container
+    itemsContainer.innerHTML = '';
+    
+    // Adicionar itens filtrados
+    filteredItems.forEach(item => {
+        const itemCard = document.createElement('div');
+        itemCard.className = `item-card ${item.purchased ? 'comprado' : ''}`;
+        
+        itemCard.innerHTML = `
+            ${item.image ? `<img src="${item.image}" alt="${item.name}" class="item-image">` : 
+              `<div class="item-image" style="background-color: #ecf0f1; display: flex; align-items: center; justify-content: center;">
+                 <span>Sem imagem</span>
+               </div>`}
+            <div class="item-details">
+                <h3 class="item-title">${item.name}</h3>
+                <div class="item-price">R$ ${item.price.toFixed(2)}</div>
+                <div>
+                    <span class="item-category">${item.category}</span>
+                    ${item.work ? `<span class="item-work">${item.work}</span>` : ''}
+                </div>
+                <p>${item.platform ? `Plataforma: ${item.platform}` : ''}</p>
+                ${item.notes ? `<p>${item.notes}</p>` : ''}
+                <div class="item-actions">
+                    <div class="item-link-container">
+                        ${item.link ? `<a href="${item.link}" target="_blank" class="item-link">Ver produto</a>` : 
+                                      `<span>Sem link</span>`}
+                    </div>
+                    <div class="action-buttons">
+                        <button onclick="togglePurchase(${item.id})" class="purchase-btn">
+                            ${item.purchased ? 'Desmarcar' : 'Marcar como comprado'}
+                        </button>
+                        <button onclick="editItem(${item.id})" class="edit-btn">Editar</button>
+                        <button onclick="deleteItem(${item.id})" class="delete-btn">Excluir</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        itemsContainer.appendChild(itemCard);
+    });
+}
+
+// Função para popular os filtros de categoria
+function populateCategoryFilters() {
+    // Limpar opções existentes
+    categoryFilter.innerHTML = '<option value="">Todas as categorias</option>';
+    itemCategory.innerHTML = '<option value="">Selecione uma categoria</option>';
+    
+    // Adicionar categorias únicas
+    categories.forEach(category => {
+        const option1 = document.createElement('option');
+        option1.value = category;
+        option1.textContent = category;
+        categoryFilter.appendChild(option1);
+        
+        const option2 = document.createElement('option');
+        option2.value = category;
+        option2.textContent = category;
+        itemCategory.appendChild(option2);
+    });
+}
+
+// Função para popular os filtros de mangá
+function populateMangaFilters() {
+    // Limpar opções existentes
+    mangaFilter.innerHTML = '<option value="">Todos os mangás</option>';
+    itemWork.innerHTML = '<option value="">Selecione um mangá</option>';
+    
+    // Adicionar mangás
+    mangas.forEach(manga => {
+        const option1 = document.createElement('option');
+        option1.value = manga;
+        option1.textContent = manga;
+        mangaFilter.appendChild(option1);
+        
+        const option2 = document.createElement('option');
+        option2.value = manga;
+        option2.textContent = manga;
+        itemWork.appendChild(option2);
+    });
+}
+
+// Função para abrir modal de adição
+function openAddModal() {
+    editingItemId = null;
+    modalTitle.textContent = 'Adicionar Novo Item';
+    itemForm.reset();
+    workGroup.classList.add('hidden');
+    itemModal.style.display = 'flex';
+}
+
+// Função para fechar modal
+function closeModal() {
+    itemModal.style.display = 'none';
+    editingItemId = null;
+}
+
+// Função para salvar item (adicionar ou editar)
+function saveItem(e) {
+    e.preventDefault();
+    
+    const name = document.getElementById('itemName').value;
+    const price = parseFloat(document.getElementById('itemPrice').value);
+    const category = document.getElementById('itemCategory').value;
+    const work = document.getElementById('itemWork').value;
+    const platform = document.getElementById('itemPlatform').value;
+    const link = document.getElementById('itemLink').value;
+    const image = document.getElementById('itemImage').value;
+    const notes = document.getElementById('itemNotes').value;
+    
+    if (editingItemId) {
+        // Editar item existente
+        const index = items.findIndex(item => item.id === editingItemId);
+        if (index !== -1) {
+            items[index] = {
+                ...items[index],
+                name,
+                price,
+                category,
+                work: category === 'Mangás' ? work : '',
+                platform,
+                link,
+                image,
+                notes
+            };
+        }
+    } else {
+        // Adicionar novo item
+        const newItem = {
+            id: Date.now(), // ID único baseado no timestamp
+            name,
+            price,
+            category,
+            work: category === 'Mangás' ? work : '',
+            platform,
+            link,
+            image,
+            notes,
+            purchased: false
+        };
+        
+        items.push(newItem);
+    }
+    
+    // Salvar no localStorage
+    localStorage.setItem('giftItems', JSON.stringify(items));
+    
+    // Atualizar a interface
+    renderItems();
+    updateTotalValue();
+    closeModal();
+}
+
+// Função para editar item
+function editItem(id) {
+    const item = items.find(item => item.id === id);
+    if (!item) return;
+    
+    editingItemId = id;
+    modalTitle.textContent = 'Editar Item';
+    
+    // Preencher formulário com dados do item
+    document.getElementById('itemName').value = item.name;
+    document.getElementById('itemPrice').value = item.price;
+    document.getElementById('itemCategory').value = item.category;
+    document.getElementById('itemPlatform').value = item.platform || '';
+    document.getElementById('itemLink').value = item.link || '';
+    document.getElementById('itemImage').value = item.image || '';
+    document.getElementById('itemNotes').value = item.notes || '';
+    
+    // Mostrar campo de obra se for um mangá
+    if (item.category === 'Mangás') {
+        workGroup.classList.remove('hidden');
+        document.getElementById('itemWork').value = item.work || '';
+    } else {
+        workGroup.classList.add('hidden');
+    }
+    
+    itemModal.style.display = 'flex';
+}
+
+// Função para excluir item
+function deleteItem(id) {
+    if (confirm('Tem certeza que deseja excluir este item?')) {
+        items = items.filter(item => item.id !== id);
+        localStorage.setItem('giftItems', JSON.stringify(items));
+        renderItems();
+        updateTotalValue();
+    }
+}
+
+// Função para alternar status de comprado
+function togglePurchase(id) {
+    const item = items.find(item => item.id === id);
+    if (item) {
+        item.purchased = !item.purchased;
+        localStorage.setItem('giftItems', JSON.stringify(items));
+        renderItems();
+        updateTotalValue();
+    }
+}
+
+// Função para atualizar o valor total
+function updateTotalValue() {
+    const total = items
+        .filter(item => !item.purchased)
+        .reduce((sum, item) => sum + item.price, 0);
+    
+    totalValue.textContent = total.toFixed(2);
+}
+
+// Funções para popups de adição de categoria e mangá
+function openCategoryPopup() {
+    newCategoryName.value = '';
+    categoryPopup.style.display = 'flex';
+}
+
+function closeCategoryPopup() {
+    categoryPopup.style.display = 'none';
+}
+
+function saveNewCategory() {
+    const categoryName = newCategoryName.value.trim();
+    if (categoryName && !categories.includes(categoryName)) {
+        categories.push(categoryName);
+        localStorage.setItem('categoryList', JSON.stringify(categories));
+        populateCategoryFilters();
+        itemCategory.value = categoryName;
+        closeCategoryPopup();
+    } else if (categories.includes(categoryName)) {
+        alert('Esta categoria já existe!');
+    }
+}
+
+function openMangaPopup() {
+    newMangaName.value = '';
+    mangaPopup.style.display = 'flex';
+}
+
+function closeMangaPopup() {
+    mangaPopup.style.display = 'none';
+}
+
+function saveNewManga() {
+    const mangaName = newMangaName.value.trim();
+    if (mangaName && !mangas.includes(mangaName)) {
+        mangas.push(mangaName);
+        localStorage.setItem('mangaList', JSON.stringify(mangas));
+        populateMangaFilters();
+        itemWork.value = mangaName;
+        closeMangaPopup();
+    } else if (mangas.includes(mangaName)) {
+        alert('Este mangá já existe!');
+    }
+}
+
+// Tornar funções disponíveis globalmente para os event listeners
+window.togglePurchase = togglePurchase;
+window.editItem = editItem;
+window.deleteItem = deleteItem;
