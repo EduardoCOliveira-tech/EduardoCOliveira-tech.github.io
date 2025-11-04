@@ -195,3 +195,47 @@ body {
     text-align: center;
     color: #888;
 }
+/* --- Estilos para a Busca de Perfil --- */
+.profile-search {
+    margin-top: 50px;
+    width: 100%;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.profile-search h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.search-form {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.search-form input {
+    flex: 1; /* Ocupa o espaço restante */
+    padding: 12px 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Ajusta o botão de busca para ter o mesmo tamanho do input */
+.search-form .btn-primary {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    white-space: nowrap; /* Impede que o texto quebre */
+}
+
+/* Responsividade para a busca */
+@media (max-width: 600px) {
+    .search-form {
+        flex-direction: column;
+    }
+}
